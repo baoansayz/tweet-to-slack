@@ -1,3 +1,9 @@
+/***************************************************************************
+ * Twitter parser which post hashtags/keywords to #general channel in slack
+ * API used : twitter4j and Apache
+ * Written by Bao Nguyen
+ * 
+ **************************************************************************/
 
 import twitter4j.FilterQuery;
 import twitter4j.StallWarning;
@@ -21,30 +27,27 @@ public class Slackbot {
 		// config to access twitter API
 		ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
 		configurationBuilder.setOAuthConsumerKey("6j1GwRT84MR3ywGVqWgbN9N3P")
-				.setOAuthConsumerSecret("829IlFyUe1m1NLGIemfh7CVY2BnmCd46nzLFDWcbxA5zOMIiQs")
-				.setOAuthAccessToken("82011425-4OZAy81bHMQ0IZMckFutcF9uWiKcIrJGpWUdhO4L5")
-				.setOAuthAccessTokenSecret("iPU3tYhAMal6hLQGTabkVruwnhBBrGud41zMDInck4wFd");
-
-		// establish connection to twiiter
+							.setOAuthConsumerSecret("829IlFyUe1m1NLGIemfh7CVY2BnmCd46nzLFDWcbxA5zOMIiQs")
+							.setOAuthAccessToken("82011425-4OZAy81bHMQ0IZMckFutcF9uWiKcIrJGpWUdhO4L5")
+							.setOAuthAccessTokenSecret("iPU3tYhAMal6hLQGTabkVruwnhBBrGud41zMDInck4wFd");
+		
 		TwitterStream twitterStream = new TwitterStreamFactory(configurationBuilder.build()).getInstance();
-
 		StatusListener statusListener = new StatusListener() {
 			@Override
 			public void onStatus(Status status) {
 
-				// The main section that you get the tweet.
+				// The main section that you get the tweet and post to Slack.
 				System.out.println(status.getText());
 
-				// creates httpclient
+				// creates HTTP client using slack incoming hook URL
 				HttpClient httpClient = (HttpClient) HttpClientBuilder.create().build();
-				HttpPost httppost = new HttpPost(
-						"https://hooks.slack.com/services/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");
+				HttpPost httppost = new HttpPost("https://hooks.slack.com/services/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");
 				httppost.addHeader("Content-type", "application/json");
 				StringEntity params = new StringEntity("{\"text\" : \"" + status.getText() + "\"}", "UTF-8");
 				params.setContentType("application/json");
 				httppost.setEntity(params);
 
-				// execute and send to slack
+				// execute and send to slack to be posted in #general channel
 				try {
 					httpClient.execute(httppost);
 				} catch (IOException e) {
@@ -79,11 +82,11 @@ public class Slackbot {
 			}
 		};
 
-		// where filtering occurs
+		// where filtering occurs and keywords are configured
 		FilterQuery fq = new FilterQuery();
+		
 		// hashtags/keywords to find
 		String keywords[] = { "#cnn" };
-
 		fq.track(keywords);
 		twitterStream.addListener(statusListener);
 		twitterStream.filter(fq);
