@@ -28,8 +28,8 @@ public class Slackbot{
 							.setOAuthAccessTokenSecret("iPU3tYhAMal6hLQGTabkVruwnhBBrGud41zMDInck4wFd");
 
 		//establish connection to twiiter
-		TwitterStream twitterStream 		= 	new TwitterStreamFactory(configurationBuilder.build())
-									 		.getInstance();
+		TwitterStream twitterStream 	= new TwitterStreamFactory(configurationBuilder.build())
+									.getInstance();
 		
 		StatusListener statusListener = new StatusListener() {
 	    @Override
