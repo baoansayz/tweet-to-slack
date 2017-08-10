@@ -22,10 +22,10 @@ public class Slackbot{
 	    
 		//config to access twitter API
 		ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-		configurationBuilder	.setOAuthConsumerKey("6j1GwRT84MR3ywGVqWgbN9N3P")
-	                		    .setOAuthConsumerSecret("829IlFyUe1m1NLGIemfh7CVY2BnmCd46nzLFDWcbxA5zOMIiQs")
-	                			.setOAuthAccessToken("82011425-4OZAy81bHMQ0IZMckFutcF9uWiKcIrJGpWUdhO4L5")
-	                			.setOAuthAccessTokenSecret("iPU3tYhAMal6hLQGTabkVruwnhBBrGud41zMDInck4wFd");
+		configurationBuilder.setOAuthConsumerKey("6j1GwRT84MR3ywGVqWgbN9N3P")
+							.setOAuthConsumerSecret("829IlFyUe1m1NLGIemfh7CVY2BnmCd46nzLFDWcbxA5zOMIiQs")
+							.setOAuthAccessToken("82011425-4OZAy81bHMQ0IZMckFutcF9uWiKcIrJGpWUdhO4L5")
+							.setOAuthAccessTokenSecret("iPU3tYhAMal6hLQGTabkVruwnhBBrGud41zMDInck4wFd");
 
 		//establish connection to twiiter
 		TwitterStream twitterStream 		= 	new TwitterStreamFactory(configurationBuilder.build())
